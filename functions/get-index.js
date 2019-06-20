@@ -8,7 +8,7 @@ var html;
 
 function* loadHTML() {
   if (!html) {
-    html = yield fs.readFileSync('static/index.html', 'utf-8')
+    html = yield fs.readFileAsync('static/index.html', 'utf-8')
   }
   return html;
 }
