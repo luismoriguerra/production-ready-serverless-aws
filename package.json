@@ -10,7 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.479.0",
     "bluebird": "^3.5.5",
-    "co": "^4.6.0"
+    "co": "^4.6.0",
+    "mustache": "^3.0.1",
+    "superagent-promise": "^1.1.0"
+  },
+  "devDependencies": {
+    "serverless-pseudo-parameters": "^2.4.0"
   }
 }
