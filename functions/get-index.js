@@ -62,7 +62,7 @@ module.exports.handler = co.wrap( function*(event, contenxt, callback) {
     statusCode: 200, 
     body: html,
     headers: {
-      'Content-Type': 'text/html; charset=UTF-8'
+      'content-type': 'text/html; charset=UTF-8'
     }
   };
   callback(null, response);

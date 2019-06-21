@@ -5,17 +5,19 @@
   "main": "handler.js",
   "scripts": {
     "deploy": "sls deploy",
-    "integration-test": "./node_modules/.bin/mocha tests/test_cases --reporter spec"
+    "integration-test": "env TEST_MODE=handler ./node_modules/.bin/mocha tests/test_cases --reporter spec",
+    "acceptance-test": "env TEST_MODE=http TEST_ROOT=https://1lonxdayp9.execute-api.us-east-1.amazonaws.com/dev ./node_modules/.bin/mocha tests/test_cases --reporter spec --retries 3 -timeout 5000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.479.0",
+    "aws-sdk": "^2.480.0",
     "aws4": "^1.8.0",
     "awscred": "^1.4.2",
     "bluebird": "^3.5.5",
     "chai": "^4.2.0",
+    "chance": "^1.0.18",
     "cheerio": "^1.0.0-rc.3",
     "co": "^4.6.0",
     "lodash": "^4.17.11",
