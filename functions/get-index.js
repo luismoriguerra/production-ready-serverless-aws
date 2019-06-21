@@ -25,7 +25,6 @@ function* loadHTML() {
 
 function* getRestaurants() {
   let url = URL.parse(restaurantsApiRoot);
-  console.log('### url', JSON.stringify(url));
   let opts = {
     host: url.hostname,
     path: url.pathname
@@ -33,13 +32,19 @@ function* getRestaurants() {
 
   aws4.sign(opts);
 
-  return (yield http
+  let httpReq = http
     .get(restaurantsApiRoot)
     .set('Host', opts.headers['Host'])
     .set('X-Amz-Date', opts.headers['X-Amz-Date'])
     .set('Authorization', opts.headers['Authorization'])
-    .set('X-Amz-Security-Token', opts.headers['X-Amz-Security-Token'])
-    ).body;
+
+
+    const token = opts.headers['X-Amz-Security-Token'];
+    if (token) {
+      httpReq.set('X-Amz-Security-Token', token)
+    }
+    
+  return (yield httpReq).body;
 }
 
 module.exports.handler = co.wrap( function*(event, contenxt, callback) {
@@ -57,7 +62,7 @@ module.exports.handler = co.wrap( function*(event, contenxt, callback) {
     statusCode: 200, 
     body: html,
     headers: {
-      'Content-type': 'text/html; charset=UTF-8'
+      'Content-Type': 'text/html; charset=UTF-8'
     }
   };
   callback(null, response);
