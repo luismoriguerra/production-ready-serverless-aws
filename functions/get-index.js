@@ -40,7 +40,7 @@ function* getRestaurants() {
     process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
     // @info: available only when temp credentials
     if (cred.sessionToken) {
-      process.env.AWS_SESSION_TOKEN = cre.sessionToken;
+      process.env.AWS_SESSION_TOKEN = cred.sessionToken;
     }
   }
 
