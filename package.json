@@ -5,8 +5,8 @@
   "main": "handler.js",
   "scripts": {
     "deploy": "./build.sh deploy dev",
-    "integration-test": "env TEST_MODE=handler ./node_modules/.bin/mocha tests/test_cases --reporter spec",
-    "acceptance-test": "env TEST_MODE=http TEST_ROOT=https://1lonxdayp9.execute-api.us-east-1.amazonaws.com/dev ./node_modules/.bin/mocha tests/test_cases --reporter spec --retries 3 -timeout 5000"
+    "integration-test": "env TEST_MODE=handler ./node_modules/.bin/mocha tests/test_cases --reporter spec --retries 3 -timeout 10000",
+    "acceptance-test": "env TEST_MODE=http TEST_ROOT=https://1lonxdayp9.execute-api.us-east-1.amazonaws.com/dev ./node_modules/.bin/mocha tests/test_cases --reporter spec --retries 3 -timeout 10000"
   },
   "keywords": [],
   "author": "",
