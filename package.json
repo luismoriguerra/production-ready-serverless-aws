@@ -28,6 +28,7 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "serverless": "^1.45.1",
     "serverless-pseudo-parameters": "^2.4.0"
   }
 }

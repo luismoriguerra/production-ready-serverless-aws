@@ -17,10 +17,10 @@ let init = co.wrap(function* () {
     process.env.cognito_user_pool_id=  'us-east-1_d4q7yZEzT';
     process.env.cognito_server_client_id='6p1jdjj8nvo1r1jntv6dr35fkg';
 
-    let cred = (yield awscred.loadAsync()).credentials;
-
-    process.env.AWS_ACCESS_KEY_ID = cred.accessKeyId;
-    process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
+    // @info: moved to functions/get-index.js to run in any env (prod, test , vs debug)
+    // let cred = (yield awscred.loadAsync()).credentials;
+    // process.env.AWS_ACCESS_KEY_ID = cred.accessKeyId;
+    // process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
 
     initialized = true;
 });
