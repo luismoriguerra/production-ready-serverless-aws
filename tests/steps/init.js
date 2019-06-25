@@ -21,6 +21,11 @@ let init = co.wrap(function* () {
     process.env.AWS_ACCESS_KEY_ID = cred.accessKeyId;
     process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
 
+    // @info: available only when temp credentials
+    if (cred.sessionToken) {
+        process.env.AWS_SESSION_TOKEN = cre.sessionToken;
+    }
+
     initialized = true;
 });
 
