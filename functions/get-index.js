@@ -7,12 +7,13 @@ const Mustache = require('mustache');
 const http = require('superagent-promise')(require('superagent'), Promise);
 const aws4 = require('aws4');
 const URL = require('url');
-const awscredRaw = require('../libs/awscred');
+const awscredRaw = require('awscred');
+// const awscredRaw = require('../libs/awscred');
 const awscred = Promise.promisifyAll(awscredRaw);
 
 const awsRegion = process.env.AWS_REGION;
 const cognitoUserPoolId = process.env.cognito_user_pool_id;
-const cognitoClientId = process.env.cognito_client_id; 
+const cognitoClientId = process.env.cognito_client_id;
 
 const restaurantsApiRoot = process.env.restaurants_api;
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -37,12 +38,13 @@ function* getRestaurants() {
     let cred = (yield awscred.loadAsync()).credentials;
     process.env.AWS_ACCESS_KEY_ID = cred.accessKeyId;
     process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
+    // @info: available only when temp credentials
+    if (cred.sessionToken) {
+      process.env.AWS_SESSION_TOKEN = cre.sessionToken;
+    }
   }
 
-  // @info: available only when temp credentials
-  if (cred.sessionToken) {
-    process.env.AWS_SESSION_TOKEN = cre.sessionToken;
-  }
+
 
   aws4.sign(opts);
 
@@ -57,7 +59,7 @@ function* getRestaurants() {
     if (token) {
       httpReq.set('X-Amz-Security-Token', token)
     }
-    
+
   return (yield httpReq).body;
 }
 
@@ -73,7 +75,7 @@ module.exports.handler = co.wrap( function*(event, contenxt, callback) {
 
   let html = Mustache.render(template, view);
   const response = {
-    statusCode: 200, 
+    statusCode: 200,
     body: html,
     headers: {
       'content-type': 'text/html; charset=UTF-8'
