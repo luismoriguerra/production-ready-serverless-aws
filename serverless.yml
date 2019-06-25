@@ -2,6 +2,7 @@ service: my-v2-page
 
 plugins:
   - serverless-pseudo-parameters
+  - serverless-sam
 
 provider:
   name: aws
