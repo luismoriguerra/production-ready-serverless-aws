@@ -5,11 +5,8 @@ const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const Mustache = require('mustache');
 const http = require('superagent-promise')(require('superagent'), Promise);
-const aws4 = require('aws4');
 const URL = require('url');
-const awscredRaw = require('awscred');
-// const awscredRaw = require('../libs/awscred');
-const awscred = Promise.promisifyAll(awscredRaw);
+const aws4 = require('../libs/aws4');
 
 const awsRegion = process.env.AWS_REGION;
 const cognitoUserPoolId = process.env.cognito_user_pool_id;
@@ -34,15 +31,16 @@ function* getRestaurants() {
   };
 
   // @info: required for vs debug
-  if (!process.env.AWS_ACCESS_KEY_ID) {
-    let cred = (yield awscred.loadAsync()).credentials;
-    process.env.AWS_ACCESS_KEY_ID = cred.accessKeyId;
-    process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
-    // @info: available only when temp credentials
-    if (cred.sessionToken) {
-      process.env.AWS_SESSION_TOKEN = cred.sessionToken;
-    }
-  }
+  // if (!process.env.AWS_ACCESS_KEY_ID) {
+  //   let cred = (yield awscred.loadAsync()).credentials;
+  //   process.env.AWS_ACCESS_KEY_ID = cred.accessKeyId;
+  //   process.env.AWS_SECRET_ACCESS_KEY = cred.secretAccessKey;
+  //   // @info: available only when temp credentials
+  //   if (cred.sessionToken) {
+  //     process.env.AWS_SESSION_TOKEN = cred.sessionToken;
+  //   }
+  // }
+  // @info: no more required due our ouw `aws4` implementation
 
 
 
@@ -64,6 +62,8 @@ function* getRestaurants() {
 }
 
 module.exports.handler = co.wrap( function*(event, contenxt, callback) {
+  yield aws4.init();
+
   let template = yield loadHTML();
   let restaurants = yield getRestaurants();
   let dayOfWeek = days[new Date().getDay()];
