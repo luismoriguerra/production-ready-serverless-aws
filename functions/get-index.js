@@ -7,8 +7,8 @@ const Mustache = require('mustache');
 const http = require('superagent-promise')(require('superagent'), Promise);
 const aws4 = require('aws4');
 const URL = require('url');
-const awscredRaw = require('awscred');
-// const awscredRaw = require('../libs/awscred');
+// const awscredRaw = require('awscred');
+const awscredRaw = require('../libs/awscred');
 const awscred = Promise.promisifyAll(awscredRaw);
 
 const awsRegion = process.env.AWS_REGION;
